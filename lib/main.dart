@@ -1,8 +1,11 @@
+import 'package:chatapp_bloc/pages/login/Bloc/LoginCubit/login_cubit.dart';
 import 'package:chatapp_bloc/pages/chat_page.dart';
-import 'package:chatapp_bloc/pages/login_page.dart';
-import 'package:chatapp_bloc/pages/resgister_page.dart';
+import 'package:chatapp_bloc/pages/login/UI/login_page.dart';
+import 'package:chatapp_bloc/pages/register/Bloc/cubit/register_cubit.dart';
+import 'package:chatapp_bloc/pages/register/UI/resgister_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'firebase_options.dart';
 
@@ -19,14 +22,20 @@ class ScholarChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        LoginPage.id: (context) => LoginPage(),
-        RegisterPage.id: (context) => RegisterPage(),
-        ChatPage.id: (context) => ChatPage()
-      },
-      initialRoute: LoginPage.id,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(create: (context) => RegisterCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          LoginPage.id: (context) => LoginPage(),
+          RegisterPage.id: (context) => RegisterPage(),
+          ChatPage.id: (context) => ChatPage()
+        },
+        initialRoute: LoginPage.id,
+      ),
     );
   }
 }
