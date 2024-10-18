@@ -1,17 +1,15 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors
 
 import 'package:chatapp_bloc/constants.dart';
 import 'package:chatapp_bloc/helper/show_snack_bar.dart';
+import 'package:chatapp_bloc/pages/login/UI/login_page.dart';
 import 'package:chatapp_bloc/pages/register/Bloc/cubit/register_cubit.dart';
 
 import 'package:chatapp_bloc/widgets/custom_button.dart';
 import 'package:chatapp_bloc/widgets/custom_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
-import '../../chat_page.dart';
 
 class RegisterPage extends StatelessWidget {
   static String id = 'RegisterPage';
@@ -30,7 +28,7 @@ class RegisterPage extends StatelessWidget {
         if (state is RegisterLoading) {
           isLoading = true;
         } else if (state is RegisterSucess) {
-          Navigator.pushNamed(context, ChatPage.id);
+          Navigator.pushNamed(context, LoginPage.id);
           isLoading = false;
         } else if (state is RegisterFaliure) {
           showSnackBar(context, state.errMessage);
@@ -47,14 +45,14 @@ class RegisterPage extends StatelessWidget {
               key: formKey,
               child: ListView(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                   ),
                   Image.asset(
                     'assets/images/scholar.png',
                     height: 100,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -67,10 +65,10 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         'REGISTER',
@@ -90,7 +88,7 @@ class RegisterPage extends StatelessWidget {
                     },
                     hintText: 'Email',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   CustomFormTextField(
@@ -99,7 +97,7 @@ class RegisterPage extends StatelessWidget {
                     },
                     hintText: 'Password',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButon(
@@ -111,13 +109,13 @@ class RegisterPage extends StatelessWidget {
                     },
                     text: 'REGISTER',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'already have an account?',
                         style: TextStyle(
                           color: Colors.white,
@@ -127,7 +125,7 @@ class RegisterPage extends StatelessWidget {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Text(
+                        child: const Text(
                           '  Register',
                           style: TextStyle(
                             color: Color(0xffC7EDE6),
@@ -143,10 +141,5 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> registerUser() async {
-    UserCredential user = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email!, password: password!);
   }
 }

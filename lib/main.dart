@@ -1,5 +1,6 @@
+import 'package:chatapp_bloc/pages/chat/Bloc/cubit/chat_cubit.dart';
 import 'package:chatapp_bloc/pages/login/Bloc/LoginCubit/login_cubit.dart';
-import 'package:chatapp_bloc/pages/chat_page.dart';
+import 'package:chatapp_bloc/pages/chat/UI/chat_page.dart';
 import 'package:chatapp_bloc/pages/login/UI/login_page.dart';
 import 'package:chatapp_bloc/pages/register/Bloc/cubit/register_cubit.dart';
 import 'package:chatapp_bloc/pages/register/UI/resgister_page.dart';
@@ -14,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ScholarChat());
+  runApp(const ScholarChat());
 }
 
 class ScholarChat extends StatelessWidget {
@@ -26,6 +27,7 @@ class ScholarChat extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
+        BlocProvider(create: (context) => ChatCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

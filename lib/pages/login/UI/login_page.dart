@@ -2,16 +2,16 @@
 
 import 'package:chatapp_bloc/constants.dart';
 import 'package:chatapp_bloc/helper/show_snack_bar.dart';
+import 'package:chatapp_bloc/pages/chat/Bloc/cubit/chat_cubit.dart';
 import 'package:chatapp_bloc/pages/login/Bloc/LoginCubit/login_cubit.dart';
 import 'package:chatapp_bloc/pages/register/UI/resgister_page.dart';
 import 'package:chatapp_bloc/widgets/custom_button.dart';
 import 'package:chatapp_bloc/widgets/custom_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../../chat_page.dart';
+import '../../chat/UI/chat_page.dart';
 
 class LoginPage extends StatelessWidget {
   bool isLoading = false;
@@ -19,6 +19,8 @@ class LoginPage extends StatelessWidget {
   GlobalKey<FormState> formKey = GlobalKey();
 
   String? email, password;
+
+  LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginState>(
@@ -26,7 +28,8 @@ class LoginPage extends StatelessWidget {
         if (state is LoginLoading) {
           isLoading = true;
         } else if (state is LoginSucess) {
-          Navigator.pushNamed(context, ChatPage.id);
+          BlocProvider.of<ChatCubit>(context).getMessage();
+          Navigator.pushNamed(context, ChatPage.id, arguments: email);
           isLoading = false;
         } else if (state is LoginFaliure) {
           showSnackBar(context, state.errMessage);
@@ -43,14 +46,14 @@ class LoginPage extends StatelessWidget {
               key: formKey,
               child: ListView(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                   ),
                   Image.asset(
                     'assets/images/scholar.png',
                     height: 100,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -63,10 +66,10 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         'LOGIN',
@@ -86,7 +89,7 @@ class LoginPage extends StatelessWidget {
                     },
                     hintText: 'Email',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   CustomFormTextField(
@@ -96,7 +99,7 @@ class LoginPage extends StatelessWidget {
                     },
                     hintText: 'Password',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButon(
@@ -108,13 +111,13 @@ class LoginPage extends StatelessWidget {
                     },
                     text: 'LOGIN',
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'dont\'t have an account?',
                         style: TextStyle(
                           color: Colors.white,
@@ -124,7 +127,7 @@ class LoginPage extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, RegisterPage.id);
                         },
-                        child: Text(
+                        child: const Text(
                           '  Register',
                           style: TextStyle(
                             color: Color(0xffC7EDE6),
@@ -140,10 +143,5 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> loginUser() async {
-    UserCredential user = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email!, password: password!);
   }
 }
